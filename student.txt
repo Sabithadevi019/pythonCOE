@@ -1,0 +1,18 @@
+
+select * from student where city='pune';
+2.Display student details whose city is Hyderabad or Pune
+select * from student where city='pune'or city='Hyderabad';
+3.Display female students from hyderabad and male students from pune and all students from bangalore
+ select * from student where gender='female' and city='hyderabad' union(select * from student where gender='male' and city='pune')union(select * from student where city='bangalore');
+4.Display student details a.from hyderabad city,male students who scored more than 70 and female who score more than 70.
+b.from pune only male 
+select * from student where city='hyderabad' and gender='male' and marks>70 union(select * from student where city='hyderabad' and gender='female' and marks>50)union(select * from student where gender='male' and city='pune')union(select * from student where not city='bangalore');
+ 5.Display student details whose score between 50 and 80 and city should be hyderabad or bangalore 
+select *from student where city='hyderabad' or city='bangalore' and marks between 50 and 80;
+6.Display student details whose name starts with s and ends with a
+select * from student where sname like 's%' and sname like '%a';
+7.display number of students in each city
+select city,count(sname) as stu_count from student group by city;
+ 8.select avg(marks) as best_marks,city as best_city from student;
+9. select city,max(marks) as top_marks from student group by city order by top_marks desc;
+10. SELECT * FROM student WHERE city = 'Hyderabad' ORDER BY score DESC LIMIT 1;
