@@ -1,0 +1,50 @@
+create database retail;
+use retail;
+
+create table salesperson(snum int not null,sname varchar(30) not null,city varchar(30) not null,comm decimal(4,2) not null,primary key(snum));
+
+
+ insert into salesperson values(1002,'serres','San Jose',0.13);
+ insert into salesperson values(1003,'axelrod','New York',0.10);
+ insert into salesperson values(1004,'motika','London',0.11);
+ insert into salesperson values(1005,'fran','London',0.26);
+ insert into salesperson values(1007,'rifkin','Barcelona',0.15)
+
+
+create table customer(cnum int not null,cname varchar(30) not null,city varchar(30) not null,rating int not null,snum int not null,primary key(cnum),foreign key(snum) references salesperson(snum));
+
+ insert into customer values(2001,'Hoffman','London',100,1001);
+
+ insert into customer values(2002,'Giovanni','Rome',200,1003);
+
+ insert into customer values(2003,'Liu','San Jose',200,1002);
+
+ insert into customer values(2004,'Grass','Berlin',300,1002);
+
+ insert into customer values(2006,'Clemens','London',100,1001);
+
+ insert into customer values(2008,'Cisneros','San Jose',300,1007);
+
+ insert into customer values(2007,'Pereira','Rome',100,1004);
+
+1.Find number of customers for each salesperson
+ Ans:select s.sname as sales_person_name, count(cnum) as count from salesperson s join customer c on s.snum=c.snum group by s.snum;
+2.Best salesperson based on customer rating
+ Ans:select s.sname as sales_person_name, max(rating) as rating_best from customer c join salesperson s on s.snum=c.snum group by s.snum;
+3.To whom we need to fire from salepeople team
+Ans: select s.snum,sum(c.rating) as total_rating from salespeople s join customer c on s.snum=c.snum group by s.snum order by total_rating asc limit 1;
+
+4.Who has less customer rating
+Ans:select s.snum,s.sname,sum(c.rating) as total_rating from salespeople s join customer c on s.snum=c.snum group by s.snum order by total_rating asc limit 1;
+
+5.Display salesperson who has customers from same city
+Ans:select s.snum,s.sname from salespeople s join customer c on s.snum=c.snum where c.city=s.city;
+
+6.Find names and numbers of all salesperson who had more than one customer 
+Ans:select s.sname,s.snum,count(c.cnum) as count_customers from salespeople s join customer c on s.snum=c.snum  group by s.snum,s.sname having count(c.cnum)>1;
+7.find customers in san jose who have a rating above 2000
+Ans: select * from customer where city="san jose" and rating>200;
+
+8.list all customers with ratings above san joses average.
+Ans: select * from customer where rating > (select avg(rating) as avg from customer where city = "san jose");
+
